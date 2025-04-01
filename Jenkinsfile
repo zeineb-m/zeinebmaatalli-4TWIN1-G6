@@ -10,7 +10,7 @@ pipeline {
 
         stage('GIT') {
             steps {
-                git branch: 'main', url: 'https://github.com/ademselmani/4TWIN1-G6-Sukunami.git'
+                git branch: 'main', url: 'https://github.com/zeineb-m/zeinebmaatalli-4TWIN1-G6.git'
             }
         }
           stage('Maven') {
