@@ -39,6 +39,11 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
+        stage('MVN SONARQUBE') {
+            steps {
+                sh "mvn sonar:sonar -Dsonar.login=squ_c0931e4b9fc970410f5037c889771f1f9db8c76f -Dmaven.test.skip=true"
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
