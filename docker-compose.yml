@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  kaddem:
+    image: zeinebmaatalli/kaddem  # Utilisation de l'image Docker que tu as créée
+    container_name: kaddem
+    ports:
+      - "8082:8082"  # Exposer le port 8082
+    
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - "3306:3306"
+  
