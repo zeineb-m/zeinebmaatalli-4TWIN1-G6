@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = 'kaddem'  // Nom de l'image Docker
+        IMAGE_NAME = 'zeinebmaatalli/kaddem' // Nom de l'image Docker
         CONTAINER_NAME = 'kaddem'  // Nom du conteneur
         DOCKER_USERNAME = 'zeinebmaatalli'  // Ton nom d'utilisateur Docker Hub
         DOCKER_PASSWORD = 'Zeineb123' 
