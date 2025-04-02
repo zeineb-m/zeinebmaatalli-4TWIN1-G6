@@ -44,12 +44,12 @@ pipeline {
                 sh "mvn sonar:sonar -Dsonar.login=2f3fe4fa588e5c54f0041fa0bf2dac24233b94b8 -Dmaven.test.skip=true"
             }
         }
-        // stage('Deploy to Nexus') {
-        //             steps {
-        //                 sh 'mvn deploy -Dmaven.test.skip=true'
+        stage('Deploy to Nexus') {
+                   steps {
+                       sh 'mvn deploy -Dmaven.test.skip=true'
 
-        //             }
-        //   }
+                     }
+           }
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
