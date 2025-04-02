@@ -9,6 +9,8 @@ pipeline {
     environment {
         IMAGE_NAME = 'kaddem'  // Nom de l'image Docker
         CONTAINER_NAME = 'kaddem'  // Nom du conteneur
+        DOCKER_USERNAME = 'zeinebmaatalli'  // Ton nom d'utilisateur Docker Hub
+        DOCKER_PASSWORD = 'Zeineb123' 
     }
 
     stages {
@@ -56,6 +58,17 @@ pipeline {
                     
                     // Démarre un nouveau conteneur avec le nom 'kaddem' et expose le port 8082
                     sh 'docker run -d --name $CONTAINER_NAME -p 8082:8082 $IMAGE_NAME'
+                }
+            }
+        }
+         stage('Push to Docker Hub') {
+            steps {
+                script {
+                    // Utilisation de docker login pour s'authentifier avant de pousser l'image
+                    sh '''
+                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                    docker push $IMAGE_NAME
+                    '''
                 }
             }
         }
