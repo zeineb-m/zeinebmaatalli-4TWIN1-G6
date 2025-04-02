@@ -7,11 +7,11 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = 'zeinebmaatalli/kaddem'  // Nom de l'image Docker
-        CONTAINER_NAME = 'zeinebmaatalli/kaddem'  // Nom du conteneur
-        DOCKER_USERNAME = 'zeinebmaatalli'  // Ton nom d'utilisateur Docker Hub
-        DOCKER_PASSWORD = 'Zeineb123'  // Ton mot de passe Docker Hub
-        COMPOSE_FILE = 'docker-compose.yml'  // Fichier Docker Compose
+        IMAGE_NAME = 'zeinebmaatalli/kaddem'  
+        CONTAINER_NAME = 'zeinebmaatalli/kaddem'  
+        DOCKER_USERNAME = 'zeinebmaatalli'  
+        DOCKER_PASSWORD = 'Zeineb123' 
+        COMPOSE_FILE = 'docker-compose.yml'  
     }
 
     stages {
