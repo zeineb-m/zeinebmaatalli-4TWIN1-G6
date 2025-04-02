@@ -42,42 +42,29 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Construction de l'image Docker avec le nom 'kaddem'
-                    sh 'docker build -t $IMAGE_NAME .'
-                }
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
         stage('Docker Compose - Start') {
             steps {
-                script {
-                    // Démarrer les services définis dans le fichier docker-compose.yml
-                    sh 'docker-compose -f $COMPOSE_FILE up -d'
-                }
+                sh 'docker-compose -f $COMPOSE_FILE up -d'
             }
         }
 
         stage('Deploy with Docker Compose - Restart') {
             steps {
-                script {
-                    // Arrêter et supprimer les anciens conteneurs si nécessaire
-                    sh 'docker-compose -f $COMPOSE_FILE down || true'
-                    // Démarre les services définis dans le fichier docker-compose.yml après les avoir arrêtés
-                    sh 'docker-compose -f $COMPOSE_FILE up -d'
-                }
+                sh 'docker-compose -f $COMPOSE_FILE down || true'
+                sh 'docker-compose -f $COMPOSE_FILE up -d'
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                script {
-                    // Utilisation de docker login pour s'authentifier avant de pousser l'image
-                    sh '''
-                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                    docker push $IMAGE_NAME
-                    '''
-                }
+                sh '''
+                echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                docker push $IMAGE_NAME
+                '''
             }
         }
     }
