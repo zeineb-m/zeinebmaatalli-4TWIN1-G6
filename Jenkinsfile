@@ -8,13 +8,14 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'zeinebmaatalli/kaddem'  // Nom de l'image Docker
-        CONTAINER_NAME = 'zeinebmaatalli/kaddem' // Nom du conteneur
+        CONTAINER_NAME = 'zeinebmaatalli/kaddem'  // Nom du conteneur
         DOCKER_USERNAME = 'zeinebmaatalli'  // Ton nom d'utilisateur Docker Hub
         DOCKER_PASSWORD = 'Zeineb123'  // Ton mot de passe Docker Hub
         COMPOSE_FILE = 'docker-compose.yml'  // Fichier Docker Compose
     }
 
     stages {
+
         stage('GIT') {
             steps {
                 git branch: 'main', url: 'https://github.com/zeineb-m/zeinebmaatalli-4TWIN1-G6.git'
@@ -48,12 +49,21 @@ pipeline {
             }
         }
 
-        stage('Deploy with Docker Compose') {
+        stage('Docker Compose - Start') {
+            steps {
+                script {
+                    // Démarrer les services définis dans le fichier docker-compose.yml
+                    sh 'docker-compose -f $COMPOSE_FILE up -d'
+                }
+            }
+        }
+
+        stage('Deploy with Docker Compose - Restart') {
             steps {
                 script {
                     // Arrêter et supprimer les anciens conteneurs si nécessaire
                     sh 'docker-compose -f $COMPOSE_FILE down || true'
-                    // Démarre les services définis dans le fichier docker-compose.yml
+                    // Démarre les services définis dans le fichier docker-compose.yml après les avoir arrêtés
                     sh 'docker-compose -f $COMPOSE_FILE up -d'
                 }
             }
