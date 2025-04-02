@@ -41,7 +41,7 @@ pipeline {
         }
         stage('MVN SONARQUBE') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.login=58a3269b323c8d656214f7d0209aec16e0e5090d -Dmaven.test.skip=true"
+                sh "mvn sonar:sonar -Dsonar.login=ed5f0def8588103f2d1cc338878ac01f0e8ac1f9 -Dmaven.test.skip=true"
             }
         }
         stage('Deploy to Nexus') {
