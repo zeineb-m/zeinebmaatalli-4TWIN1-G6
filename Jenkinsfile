@@ -7,14 +7,14 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = 'zeinebmaatalli/kaddem' // Nom de l'image Docker
-        CONTAINER_NAME = 'zeinebmaatalli/kaddem'// Nom du conteneur
+        IMAGE_NAME = 'zeinebmaatalli/kaddem'  // Nom de l'image Docker
+        CONTAINER_NAME = 'zeinebmaatalli/kaddem' // Nom du conteneur
         DOCKER_USERNAME = 'zeinebmaatalli'  // Ton nom d'utilisateur Docker Hub
-        DOCKER_PASSWORD = 'Zeineb123' 
+        DOCKER_PASSWORD = 'Zeineb123'  // Ton mot de passe Docker Hub
+        COMPOSE_FILE = 'docker-compose.yml'  // Fichier Docker Compose
     }
 
     stages {
-
         stage('GIT') {
             steps {
                 git branch: 'main', url: 'https://github.com/zeineb-m/zeinebmaatalli-4TWIN1-G6.git'
@@ -48,20 +48,18 @@ pipeline {
             }
         }
 
-
-        stage('Deploy Container') {
+        stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    // Supprime l'ancien conteneur s'il existe déjà
-                    sh 'docker stop $CONTAINER_NAME || true'
-                    sh 'docker rm $CONTAINER_NAME || true'
-                    
-                    // Démarre un nouveau conteneur avec le nom 'kaddem' et expose le port 8082
-                    sh 'docker run -d --name $CONTAINER_NAME -p 8082:8082 $IMAGE_NAME'
+                    // Arrêter et supprimer les anciens conteneurs si nécessaire
+                    sh 'docker-compose -f $COMPOSE_FILE down || true'
+                    // Démarre les services définis dans le fichier docker-compose.yml
+                    sh 'docker-compose -f $COMPOSE_FILE up -d'
                 }
             }
         }
-         stage('Push to Docker Hub') {
+
+        stage('Push to Docker Hub') {
             steps {
                 script {
                     // Utilisation de docker login pour s'authentifier avant de pousser l'image
