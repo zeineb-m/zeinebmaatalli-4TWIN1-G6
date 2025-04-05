@@ -44,15 +44,13 @@ pipeline {
                 sh "mvn sonar:sonar -Dsonar.login=1d228746e7c33b89c2c7ef53f264cedbea068852 -Dmaven.test.skip=true"
             }
         }
-     stage('Deploy to Nexus') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'nexus-credentials', 
-                        usernameVariable: 'admin', 
-                        passwordVariable: 'zeineb')]) {
-            sh 'mvn deploy -Dmaven.test.skip=true -DaltDeploymentRepository=deploymentRepo::default::http://172.17.0.1:8081/repository/maven-releases/ -DrepositoryId=deploymentRepo'
+    stage('Deploy to Nexus'){
+            steps{
+                sh 'mvn deploy -Dmaven.test.skip=true'
+            }
         }
     }
-}
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
