@@ -39,17 +39,22 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
+
         stage('MVN SONARQUBE') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.login=1d228746e7c33b89c2c7ef53f264cedbea068852 -Dmaven.test.skip=true"
+                sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.login=1d228746e7c33b89c2c7ef53f264cedbea068852 \
+                    -Dmaven.test.skip=true
+                '''
             }
         }
-    stage('Deploy to Nexus'){
-            steps{
+
+        stage('Deploy to Nexus') {
+            steps {
                 sh 'mvn deploy -Dmaven.test.skip=true'
             }
         }
-    }
 
         stage('Build Docker Image') {
             steps {
@@ -73,8 +78,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 sh '''
-                echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                docker push $IMAGE_NAME
+                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                    docker push $IMAGE_NAME
                 '''
             }
         }
