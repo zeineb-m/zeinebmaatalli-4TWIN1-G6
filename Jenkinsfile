@@ -32,14 +32,13 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('MVN SONARQUBE') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        mvn sonar:sonar \
-                        -Dmaven.test.skip=true
-                    '''
-                }
+                sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.login=squ_5cd14c3d1442652f6739461650faa58ab2be84ac \
+                    -Dmaven.test.skip=true
+                '''
             }
         }
 
