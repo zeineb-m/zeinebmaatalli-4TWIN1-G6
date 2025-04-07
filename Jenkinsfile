@@ -8,6 +8,12 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'zeinebmaatalli/kaddem'  
+
+        CONTAINER_NAME = 'zeinebmaatalli/kaddem'  
+        DOCKER_USERNAME = 'zeinebmaatalli'  
+        DOCKER_PASSWORD = 'Zeineb123' 
+        COMPOSE_FILE = 'docker-compose.yml'  
+    
     }
 
     stages {
@@ -57,5 +63,28 @@ pipeline {
                 sh 'docker build -t $IMAGE_NAME .'
             }
         }
+    }  stage('Start with Docker Compose') {
+            steps {
+                sh 'docker-compose -f $COMPOSE_FILE up -d'
+            }
+        }
+
+        stage('Restart Docker Compose') {
+            steps {
+                sh '''
+                    docker-compose -f $COMPOSE_FILE down || true
+                    docker-compose -f $COMPOSE_FILE up -d
+                '''
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                sh '''
+                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                    docker push $IMAGE_NAME
+                '''
+            }
+        }
     }
-}
+}  
