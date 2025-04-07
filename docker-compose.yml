@@ -14,7 +14,7 @@ services:
 
   kaddem:
     image: zeinebmaatalli/kaddem
-    container_name: kaddem
+    container_name: zeinebmaatalli-4twin1-g6/kaddem
     ports:
       - "8082:8082"
     depends_on:
