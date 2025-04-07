@@ -6,6 +6,10 @@ pipeline {
         maven 'M2_HOME'   
     }
 
+    environment {
+        IMAGE_NAME = 'zeinebmaatalli/kaddem'  
+    }
+
     stages {
 
         stage('Clone Repository') {
@@ -45,6 +49,12 @@ pipeline {
         stage('Deploy to Nexus') {
             steps {
                 sh 'mvn deploy -Dmaven.test.skip=true'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
     }
